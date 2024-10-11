@@ -5,6 +5,7 @@ import (
 	"main/config"
 	handler "main/handlers"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,6 +17,7 @@ func main() {
 		log.Fatalf("Error connecting to the database: %v", err)
 	}
 	defer dbPool.Close()
+	handlerInstance.Use(cors.Default())
 	handler.CreateLandingPageHandler(handlerInstance, dbPool)
 	if err := handlerInstance.Run(":8080"); err != nil {
 		log.Fatalf("Failed to run server: %v", err)
